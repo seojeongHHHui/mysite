@@ -34,13 +34,30 @@
     <url-pattern>/guestbook</url-pattern>
   </servlet-mapping>
   
-  <!-- Common Error Page -->
- <!-- 
+  <servlet>
+    <servlet-name>BoardServlet</servlet-name>
+    <servlet-class>com.poscodx.mysite.controller.BoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardServlet</servlet-name>
+    <url-pattern>/board</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Common Error Pages -->
   <error-page>
   	<error-code>400</error-code>
-  	<location>/WEB-INF/error/400.jsp</location>
+  	<location>/WEB-INF/views/errors/400.jsp</location>
   </error-page>
- -->
+  
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/WEB-INF/views/errors/404.jsp</location>
+  </error-page>
+  
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/WEB-INF/views/errors/500.jsp</location>
+  </error-page>
   
   <!-- Default Files -->
   <welcome-file-list>

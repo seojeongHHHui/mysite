@@ -18,7 +18,7 @@ public class InsertAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
-		String contents = request.getParameter("contents");
+		String contents = request.getParameter("contents").replaceAll(">", "&gt;").replaceAll("<", "&lt;");
 		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		String regDate = dateFormat.format(now);

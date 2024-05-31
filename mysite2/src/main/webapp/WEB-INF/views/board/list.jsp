@@ -56,7 +56,6 @@
 				<c:set var="pageSection" value="${pageSection }" />
 				<c:set var="sectionSize" value="${sectionSize }" />
 				<c:set var="selected" value="${selectedPage }" />
-				
 				<c:set var="maxPage" value="${maxPage }" />
 				<c:set var="maxSection" value="${maxSection }" />
 				

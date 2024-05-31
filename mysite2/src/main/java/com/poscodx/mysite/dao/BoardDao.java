@@ -70,7 +70,7 @@ public class BoardDao {
 		return result;
 	}
 	
-	public List<BoardVo> findAllWithPaging(int page) {
+	public List<BoardVo> findAllWithPaging(int page, int viewCountPerPage) {
 		List<BoardVo> result = new ArrayList<>();
 		
 		try (
@@ -79,9 +79,10 @@ public class BoardDao {
 															+ " from board a, user b"
 															+ " where a.user_no=b.no"
 															+ " order by g_no desc, o_no asc"
-															+ " limit ?, 5"); // 게시글 5개씩
+															+ " limit ?, ?");
 		) {
 			pstmt.setInt(1, (page-1)*5);
+			pstmt.setInt(2, viewCountPerPage);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

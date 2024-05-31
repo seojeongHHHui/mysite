@@ -17,7 +17,7 @@ public class ListAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//List<BoardVo> list = new BoardDao().findAll();
 		
-		/***** 페이지 당 게시물 수 - dao의 상수(5) 변수로 변경하기 *****/
+		// 페이지 당 게시물 수 설정
 		int viewCountPerPage = 5;
 		
 		// 페이지 섹션 변수
@@ -68,7 +68,7 @@ public class ListAction implements Action {
 		}
 		
 		// 현재 페이지의 게시물 리스트
-		List<BoardVo> list = new BoardDao().findAllWithPaging(selectedPage);
+		List<BoardVo> list = new BoardDao().findAllWithPaging(selectedPage, viewCountPerPage);
 		
 		// list.jsp에 전달
 		request.setAttribute("maxPage", maxPage);

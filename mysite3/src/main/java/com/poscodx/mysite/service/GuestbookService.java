@@ -25,12 +25,14 @@ public class GuestbookService {
 	}
 	
 	public void addContents(GuestbookVo vo) {
-		Date now = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		String regDate = dateFormat.format(now);
-		vo.setRegDate(regDate);
+//		Date now = new Date();
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		String regDate = dateFormat.format(now);
+//		vo.setRegDate(regDate);
 		
+		System.out.println(vo);
 		guestbookRepository.insert(vo);
+		System.out.println(vo);
 	}
 	
 }

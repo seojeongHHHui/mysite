@@ -32,6 +32,11 @@ order by g_no desc, o_no asc
 limit ?, 5;
 
 -- getPageSection
+select count(*) from board;
 
+insert into board values(null,?,?,?,?, ifnull((select max(g_no) from board a)+1,1), ?,?,?);
 
+select user_no
+from board
+where no=70;
 

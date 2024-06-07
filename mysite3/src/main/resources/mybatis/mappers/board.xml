@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<select id="findAll" resultType="boardvo">
+		<![CDATA[
+		select a.no, a.title, a.contents, a.hit, a.reg_date, a.g_no, a.o_no, a.depth, a.user_no, b.name
+		from board a, user b
+		where a.user_no=b.no
+		order by g_no desc, o_no asc
+		]]>
+	</select>
+	
+	<select id="findAllWithPaging" resultType="boardvo" parameterType="map">
+		<![CDATA[
+		select a.no, a.title, a.contents, a.hit, a.reg_date, a.g_no, a.o_no, a.depth, a.user_no, b.name
+		from board a, user b
+		where a.user_no=b.no
+		order by g_no desc, o_no asc
+		limit #{startIndex }, #{viewCountPerPage }
+		]]>
+	</select>
+	
+	<select id="getViewCount" resultType="int">
+		<![CDATA[
+		select count(*) from board
+		]]>
+	</select>
+	
+	<select id="findByNo" parameterType="long" resultType="boardvo">
+		<![CDATA[
+		select title, contents, user_no
+		from board
+		where no=#{no }
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="map">
+		<choose>
+			<when test='parentNo == null'>
+				<![CDATA[
+				insert
+				into board
+				values(null,#{vo.title },#{vo.contents }, 0, now(), ifnull((select max(g_no) from board a)+1,1), 1, 0, #{vo.userNo })
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				insert
+				into board
+				select null,#{vo.title },#{vo.contents }, 0, now(), g_no, (o_no+1), (depth+1), #{vo.userNo } from board a where no=#{parentNo }
+				]]>
+			</otherwise>
+		</choose>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+			select last_insert_id() from dual
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="updateOrderNo" parameterType="long">
+		<![CDATA[
+		update board
+		set o_no = o_no+1
+		where g_no=(select g_no from board a where no=#{parentNo }) and o_no>=(select o_no+1 from board b where no=#{parentNo })
+		]]>
+	</update>
+	
+	<delete id="deleteByNo" parameterType="long">
+		<![CDATA[
+		delete
+		from board
+		where no = #{boardNo }
+		]]>
+	</delete>
+	
+	<select id="getWriterNo" parameterType="long" resultType="long">
+		<![CDATA[
+		select user_no
+		from board
+		where no = #{boardNo }
+		]]>
+	</select>
+	
+	<update id="updateTitleAndContentsByNo" parameterType="map">
+		<![CDATA[
+		update board
+		set title=#{title }, contents=#{contents }
+		where no=#{no }
+		]]>
+	</update>
+	
+	<update id="updateHit" parameterType="long">
+		<![CDATA[
+		update board
+		set hit=hit+1
+		where no=#{no }
+		]]>
+	</update>
+	
+</mapper>

@@ -48,14 +48,15 @@ public class BoardController {
 		return "board/view";
 	}
 	
+	@Auth
 	@RequestMapping("/delete/{no}")
 	public String delete(HttpSession session, @PathVariable Long no) {
-		// access control
+		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/";
 		}
-		////////////////////////////////////
+		
 		boardService.deleteContents(no, authUser.getNo());
 		return "redirect:/board";
 	}
@@ -66,12 +67,20 @@ public class BoardController {
 		return "board/write";
 	}
 	
+	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String write(BoardVo vo) {
+	public String write(HttpSession session, BoardVo vo) {
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		
 		boardService.addContents(vo, null);
 		return "redirect:/board";
 	}
 	
+	@Auth
 	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
 	public String reply(@PathVariable Long no, Model model) {
 		model.addAttribute("parentNo", no);
@@ -84,21 +93,29 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
-	public String modify(@PathVariable Long no, Model model) {
+	public String modify(HttpSession session, @PathVariable Long no, Model model) {
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		
 		BoardVo vo = boardService.getContents(no);
 		model.addAttribute("vo", vo);
 		return "board/modify";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.POST)
 	public String modify(HttpSession session, BoardVo vo, @PathVariable Long no) {
-		// access control
+		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/";
 		}
-		////////////////////////////////////
+		
 		boardService.modifyContents(no, vo.getTitle(), vo.getContents(), authUser.getNo());
 		return "redirect:/board";
 	}

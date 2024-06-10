@@ -4,7 +4,7 @@
 <mapper namespace="board">
 	<select id="findAll" resultType="boardvo">
 		<![CDATA[
-		select a.no, a.title, a.contents, a.hit, a.reg_date, a.g_no, a.o_no, a.depth, a.user_no, b.name
+		select a.no, a.title, a.contents, a.hit, a.reg_date as regDate, a.g_no as groupNo, a.o_no as orderNo, a.depth, a.user_no as userNo, b.name as userName
 		from board a, user b
 		where a.user_no=b.no
 		order by g_no desc, o_no asc
@@ -13,7 +13,7 @@
 	
 	<select id="findAllWithPaging" resultType="boardvo" parameterType="map">
 		<![CDATA[
-		select a.no, a.title, a.contents, a.hit, a.reg_date, a.g_no, a.o_no, a.depth, a.user_no, b.name
+		select a.no, a.title, a.contents, a.hit, a.reg_date as regDate, a.g_no as groupNo, a.o_no as orderNo, a.depth, a.user_no as userNo, b.name as userName
 		from board a, user b
 		where a.user_no=b.no
 		order by g_no desc, o_no asc
@@ -29,7 +29,7 @@
 	
 	<select id="findByNo" parameterType="long" resultType="boardvo">
 		<![CDATA[
-		select title, contents, user_no
+		select no, title, contents, user_no as userNo
 		from board
 		where no=#{no }
 		]]>
@@ -48,7 +48,7 @@
 				<![CDATA[
 				insert
 				into board
-				select null,#{vo.title },#{vo.contents }, 0, now(), g_no, (o_no+1), (depth+1), #{vo.userNo } from board a where no=#{parentNo }
+				select null,#{vo.title },#{vo.contents }, 0, now(), g_no, (o_no+1), (depth+1), #{vo.userNo } from board a where no=(Cast(#{parentNo} as Integer))
 				]]>
 			</otherwise>
 		</choose>
@@ -77,7 +77,7 @@
 	
 	<select id="getWriterNo" parameterType="long" resultType="long">
 		<![CDATA[
-		select user_no
+		select user_no as userNo
 		from board
 		where no = #{boardNo }
 		]]>

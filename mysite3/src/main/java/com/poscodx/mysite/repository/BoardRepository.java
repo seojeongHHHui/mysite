@@ -1,5 +1,6 @@
 package com.poscodx.mysite.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,9 +36,15 @@ private SqlSession sqlSession;
 	
 	public int insert(BoardVo vo, Long parentNo) {
 		if(parentNo == null) {
-			return sqlSession.insert("board.insert", Map.of("vo", vo, "parentNo", null));
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("vo", vo);
+			map.put("parentNo", null);
+			return sqlSession.insert("board.insert", map);
 		} else {
-			return sqlSession.insert("board.insert", Map.of("vo", vo, "parentNo", parentNo));
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("vo", vo);
+			map.put("parentNo", parentNo);
+			return sqlSession.insert("board.insert", map);
 		}
 	}
 //	public int insertNew(BoardVo vo) {

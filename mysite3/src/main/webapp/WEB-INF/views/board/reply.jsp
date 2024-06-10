@@ -16,7 +16,6 @@
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/reply/${parentNo }">
 					<input type = "hidden" name = "userNo" value="${authUser.getNo() }">
-					
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

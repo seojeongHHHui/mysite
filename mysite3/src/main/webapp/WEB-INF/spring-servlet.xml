@@ -51,9 +51,15 @@
 	
 	<!-- View Resolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	   <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-	   <property name="prefix" value="/WEB-INF/views/" />
-	   <property name="suffix" value=".jsp" />
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+		<property name="exposeContextBeansAsAttributes" value="true" />
+		<property name="exposedContextBeanNames">
+			<list>
+	   			<value>site</value>
+			</list>
+		</property> 
 	</bean>
 
 	<context:annotation-config />

@@ -2,8 +2,6 @@ package com.poscodx.mysite.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poscodx.mysite.security.Auth;
+import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.BoardService;
 import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.UserVo;
@@ -50,9 +49,8 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping("/delete/{no}")
-	public String delete(HttpSession session, @PathVariable Long no) {
+	public String delete(@AuthUser UserVo authUser, @PathVariable Long no) {
 		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/";
 		}
@@ -69,12 +67,10 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String write(HttpSession session, BoardVo vo) {
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String write(@AuthUser UserVo authUser, BoardVo vo) {
+//		if(authUser == null) {
+//			return "redirect:/";
+//		}
 		
 		boardService.addContents(vo, null);
 		return "redirect:/board";
@@ -95,13 +91,7 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
-	public String modify(HttpSession session, @PathVariable Long no, Model model) {
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String modify(@AuthUser UserVo authUser, @PathVariable Long no, Model model) {
 		BoardVo vo = boardService.getContents(no);
 		model.addAttribute("vo", vo);
 		return "board/modify";
@@ -109,13 +99,7 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.POST)
-	public String modify(HttpSession session, BoardVo vo, @PathVariable Long no) {
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String modify(@AuthUser UserVo authUser, BoardVo vo, @PathVariable Long no) {
 		boardService.modifyContents(no, vo.getTitle(), vo.getContents(), authUser.getNo());
 		return "redirect:/board";
 	}

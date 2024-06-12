@@ -30,12 +30,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
 		
 		// 4. Handler Method에 @Auth가 없으면 Type(Class)에 붙어 있는지 확인
-		//handlerMethod.
 		if(auth == null) {
-			//return true;
+			auth = handlerMethod
+					.getMethod()
+					.getDeclaringClass()
+					.getAnnotation(Auth.class);
 		}
-		
-		
 		
 		// 5. Type이나 Method에 @Auth가 없는 경우
 		if(auth == null) {

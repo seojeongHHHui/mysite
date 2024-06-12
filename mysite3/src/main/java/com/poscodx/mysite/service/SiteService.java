@@ -1,12 +1,14 @@
 package com.poscodx.mysite.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.poscodx.mysite.repository.SiteRepository;
 import com.poscodx.mysite.vo.SiteVo;
 
 @Service
 public class SiteService {
+	
 	private SiteRepository siteRepository;
 	
 	public SiteService(SiteRepository siteRepository) {
@@ -14,12 +16,12 @@ public class SiteService {
 	}
 	
 	public SiteVo getSite() {
-		//return siteRepository.find();
-		return null;
+		return siteRepository.find();
 	}
 	
 	public void updateSite(SiteVo vo) {
-		//siteRepository.update(vo);
+		System.out.println(vo);
+		siteRepository.update(vo);
 	}
 	
 }

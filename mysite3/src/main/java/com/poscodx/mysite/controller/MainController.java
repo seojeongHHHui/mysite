@@ -1,5 +1,7 @@
 package com.poscodx.mysite.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +15,12 @@ public class MainController {
 	public String index() {
 		
 		return "main/index";
+	}
+	
+	@RequestMapping("/cookie")
+	public String cookie(String lang, HttpServletResponse res) {
+		
+		return "redirect:/";
 	}
 	
 	@ResponseBody

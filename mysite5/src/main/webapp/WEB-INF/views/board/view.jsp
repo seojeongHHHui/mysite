@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	pageContext.setAttribute("newline", "\n");
@@ -37,16 +38,19 @@
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
 					
-					<%-- 로그인 시, 본인이 아닐때 --%>
-					<c:if test='${not empty authUser and authUser.no!=vo.userNo}'>
-					    <a href="${pageContext.request.contextPath }/board/reply/${vo.no }">답글달기</a>
-					</c:if>
-					
-					<%-- 로그인 시, 본인에게만 보기에 --%>
-					<c:if test='${not empty authUser and authUser.no==vo.userNo}'>
-					    <a href="${pageContext.request.contextPath }/board/modify/${vo.no }">글수정</a>
-					</c:if>
-					
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="principal" var="user"/>
+						
+						<%-- 로그인 시, 본인이 아닐때 --%>
+						<c:if test='${user.no != vo.userNo}'>
+							<a href="${pageContext.request.contextPath }/board/reply/${vo.no }">답글달기</a>
+						</c:if>
+						
+						<%-- 로그인 시, 본인에게만 보기에 --%>
+						<c:if test='${user.no == vo.userNo}'>
+							<a href="${pageContext.request.contextPath }/board/modify/${vo.no }">글수정</a>
+						</c:if>
+					</sec:authorize>
 					
 				</div>
 			</div>

@@ -20,7 +20,7 @@
 					<label class="block-label" >패스워드</label>
 					<input name="password" type="password" value="">
 					
-					<c:if test='${result == "fail" }'>
+					<c:if test='${param.result == "fail" }'>
 						<p>
 							로그인이 실패했습니다.
 						</p>

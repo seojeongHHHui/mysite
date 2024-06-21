@@ -10,36 +10,34 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.poscodx.mysite.security.Auth;
 import com.poscodx.mysite.service.FileUploadService;
 import com.poscodx.mysite.service.SiteService;
 import com.poscodx.mysite.vo.SiteVo;
 
-
 @Controller
-@Auth(role="ADMIN")
 @RequestMapping("/admin")
 public class AdminController {
-	
 	@Autowired
 	private ApplicationContext applicationContext;
-	
-	@Autowired
-	private SiteService siteService;
-	
+
 	@Autowired
 	private ServletContext servletContext;
 	
+	@Autowired
+	private SiteService siteService;
+
 	@Autowired
 	private FileUploadService fileUploadService;
 	
 	@RequestMapping("")
 	public String main(Model model) {
-		SiteVo siteVo = siteService.getSite();
-		model.addAttribute("siteVo", siteVo);
+		
+		
+		SiteVo vo = siteService.getSite();
+		model.addAttribute("siteVo", vo);
 		return "admin/main";
 	}
-	
+
 	@RequestMapping("/main/update")
 	public String update(SiteVo vo, MultipartFile file) {
 		String profile = fileUploadService.restore(file);
@@ -48,6 +46,7 @@ public class AdminController {
 		}
 		
 		siteService.updateSite(vo);
+		
 		servletContext.setAttribute("sitevo", vo);
 		
 		SiteVo site = applicationContext.getBean(SiteVo.class);
@@ -59,7 +58,7 @@ public class AdminController {
 		
 		return "redirect:/admin";
 	}
-	
+
 	@RequestMapping("/guestbook")
 	public String guestbook() {
 		return "admin/guestbook";

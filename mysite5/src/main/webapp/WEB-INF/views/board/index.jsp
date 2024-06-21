@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html>
@@ -44,9 +45,12 @@
 						<td>${vo.regDate }</td>
 						
 						<%-- 로그인 시, 본인에게만 보기에 --%>
-						<c:if test='${not empty authUser and authUser.getNo()==vo.userNo}'>
-							<td><a href="${pageContext.request.contextPath }/board/delete/${vo.no }" class="del">삭제</a></td>
-						</c:if>
+						<sec:authorize access="isAuthenticated()">
+							<sec:authentication property="principal" var="user"/>
+							<c:if test='${user.no == vo.userNo}'>
+								<td><a href="${pageContext.request.contextPath }/board/delete/${vo.no }" class="del">삭제</a></td>
+							</c:if>
+						</sec:authorize>
 						
 					</tr>
 					</c:forEach>
@@ -95,9 +99,9 @@
 				<%-- pager 추가 --%>
 				
 				<div class="bottom">
-					<c:if test='${not empty authUser}'>
+					<sec:authorize access="isAuthenticated()">
 						<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
-					</c:if>
+					</sec:authorize>
 				</div>				
 			</div>
 		</div>

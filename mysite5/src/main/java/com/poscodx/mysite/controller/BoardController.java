@@ -3,6 +3,7 @@ package com.poscodx.mysite.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.poscodx.mysite.security.Auth;
-import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.BoardService;
 import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.UserVo;
@@ -47,36 +46,26 @@ public class BoardController {
 		return "board/view";
 	}
 	
-	@Auth
 	@RequestMapping("/delete/{no}")
-	public String delete(@AuthUser UserVo authUser, @PathVariable Long no) {
-		
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String delete(Authentication authentication, @PathVariable Long no) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		boardService.deleteContents(no, authUser.getNo());
 		return "redirect:/board";
 	}
 	
-	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String write() {
 		return "board/write";
 	}
 	
-	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String write(@AuthUser UserVo authUser, BoardVo vo) {
-//		if(authUser == null) {
-//			return "redirect:/";
-//		}
-		
+	public String write(Authentication authentication, BoardVo vo) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
+		vo.setUserNo(authUser.getNo());
 		boardService.addContents(vo, null);
 		return "redirect:/board";
 	}
 	
-	@Auth
 	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
 	public String reply(@PathVariable Long no, Model model) {
 		model.addAttribute("parentNo", no);
@@ -89,17 +78,18 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
-	public String modify(@AuthUser UserVo authUser, @PathVariable Long no, Model model) {
+	public String modify(Authentication authentication, @PathVariable Long no, Model model) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		BoardVo vo = boardService.getContents(no);
 		model.addAttribute("vo", vo);
 		return "board/modify";
 	}
 	
-	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.POST)
-	public String modify(@AuthUser UserVo authUser, BoardVo vo, @PathVariable Long no) {
+	public String modify(Authentication authentication, BoardVo vo, @PathVariable Long no) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
+		vo.setUserNo(authUser.getNo());
 		boardService.modifyContents(no, vo.getTitle(), vo.getContents(), authUser.getNo());
 		return "redirect:/board";
 	}

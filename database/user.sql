@@ -15,4 +15,5 @@ select no, name, email, gender from user where no=2;
 alter table user add column role enum('ADMIN', 'USER') not null default 'USER';
 
 update user set role='ADMIN' where no=1;
+update user set role='ADMIN' where no = 9;
 

@@ -29,12 +29,17 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByNo", no);
 	}
 	
-	public UserVo findByEmail(String email) {
-		return sqlSession.selectOne("user.findByEmail", email);
-	}
+//	public UserVo findByEmail(String email) {
+//		return sqlSession.selectOne("user.findByEmail", email);
+//	}
+//	
+//	public UserDetailsImpl findByEmail2(String email) {
+//		return sqlSession.selectOne("user.findByEmail2", email);
+//	}
 	
-	public UserDetailsImpl findByEmail2(String email) {
-		return sqlSession.selectOne("user.findByEmail2", email);
+	public <R> R findByEmail(String email) {
+		R result = null;
+		return result;
 	}
 
 	public int update(UserVo vo) {

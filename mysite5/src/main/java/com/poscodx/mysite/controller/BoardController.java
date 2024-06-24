@@ -73,7 +73,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/reply/{parentNo}", method=RequestMethod.POST)
-	public String reply(BoardVo vo, @PathVariable Long parentNo) {
+	public String reply(Authentication authentication, BoardVo vo, @PathVariable Long parentNo) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
+		vo.setUserNo(authUser.getNo());
 		boardService.addContents(vo, parentNo);
 		return "redirect:/board";
 	}
@@ -89,7 +91,6 @@ public class BoardController {
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.POST)
 	public String modify(Authentication authentication, BoardVo vo, @PathVariable Long no) {
 		UserVo authUser = (UserVo)authentication.getPrincipal();
-		vo.setUserNo(authUser.getNo());
 		boardService.modifyContents(no, vo.getTitle(), vo.getContents(), authUser.getNo());
 		return "redirect:/board";
 	}

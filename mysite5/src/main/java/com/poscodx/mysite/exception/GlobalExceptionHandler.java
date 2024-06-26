@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poscodx.mysite.dto.JsonResult;

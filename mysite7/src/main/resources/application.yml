@@ -20,6 +20,15 @@ spring:
       # view:
       #   prefix: /WEB-INF/views/
       #   suffix: .jsp
+      
+   #thymeleaf
+   thymeleaf:
+      check-template-location: true
+      mode: HTML	
+      prefix: classpath:templates/
+      suffix: .html
+      encoding: UTF-8
+      cache: false   
 
    # web
    web:

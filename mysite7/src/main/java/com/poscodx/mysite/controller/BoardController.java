@@ -28,21 +28,26 @@ public class BoardController {
 			@RequestParam(value="sectionDown", required=false, defaultValue="") Boolean sectionDown,
 			@RequestParam(value="sectionUp", required=false, defaultValue="") Boolean sectionUp,
 			@RequestParam(value="currentPageSection", required=false, defaultValue="") Integer currentPageSection,
+			Authentication authentication,
 			Model model) {
 		//List<BoardVo> list = boardService.getContentsList();
 		//model.addAttribute("list", list);
 		
 		Map map = boardService.getContentsList(page, sectionDown, sectionUp, currentPageSection);
-		model.addAllAttributes(map); // list 바로 접근 가능
-		//model.addAttribute("map", map); // map.list 식으로 접근해야함
+		//model.addAllAttributes(map); // list 바로 접근 가능
+		model.addAttribute("map", map); // map.list 식으로 접근해야함
+		
+		model.addAttribute("principal", authentication != null ? authentication.getPrincipal() : null);
 		
 		return "board/index";
 	}
 	
 	@RequestMapping("/view/{no}")
-	public String view(@PathVariable Long no, Model model) {
+	public String view(@PathVariable Long no, Model model, Authentication authentication) {
 		BoardVo vo = boardService.getContents(no);
 		model.addAttribute("vo", vo);
+		model.addAttribute("principal", authentication != null ? authentication.getPrincipal() : null);
+		
 		return "board/view";
 	}
 	

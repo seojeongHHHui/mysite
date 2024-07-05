@@ -28,33 +28,6 @@ public class MvcConfig implements WebMvcConfigurer {
 		return localeResolver;
 	}
 	
-	// Thymeleaf View Resolver
-	@Bean
-	public ViewResolver thymeleafViewResolver(ISpringTemplateEngine templateEngine) {
-		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-
-		viewResolver.setTemplateEngine(templateEngine);
-		viewResolver.setCharacterEncoding("UTF-8");
-		viewResolver.setOrder(1);
-
-		return viewResolver;
-	}
-	
-	// JSP View Resolver
-	@Bean
-	public ViewResolver viewResolver() {
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/WEB-INF/");
-		viewResolver.setSuffix(".jsp");
-		viewResolver.setExposeContextBeansAsAttributes(true);
-		viewResolver.setExposedContextBeanNames("site");
-		viewResolver.setViewNames("views/*");
-		viewResolver.setOrder(0);
-		
-		return viewResolver;
-	}
-	
 	// Site Interceptor
 	@Bean
 	public HandlerInterceptor siteInterceptor() {

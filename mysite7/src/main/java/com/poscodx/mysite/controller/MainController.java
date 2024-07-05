@@ -20,14 +20,7 @@ public class MainController {
 	@RequestMapping({"/", "/main"})
 	public String index(Model model) {
 		model.addAttribute("servletContext", servletContext);
-		
 		return "main/index";
-	}
-	
-	@RequestMapping("/cookie")
-	public String cookie(String lang, HttpServletResponse res) {
-		
-		return "redirect:/";
 	}
 	
 	@ResponseBody

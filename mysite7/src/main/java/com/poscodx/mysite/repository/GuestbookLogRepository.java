@@ -1,16 +1,14 @@
 package com.poscodx.mysite.repository;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class GuestbookLogRepository {
 	
-	private SqlSession sqlSession;
-	
-	public GuestbookLogRepository(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
-	}
+	@Autowired
+    private SqlSession sqlSession;
 	
 	public int insert() {
 		return sqlSession.update("guestbooklog.insert");

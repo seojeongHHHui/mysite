@@ -27,17 +27,17 @@ public class WhitelabelErrorController implements ErrorController {
 			int statusCode = Integer.valueOf(status.toString());
 			
 			if(statusCode == HttpStatus.NOT_FOUND.value()) {
-				return "views/errors/404";
+				return "errors/404";
 			} else if(statusCode == HttpStatus.BAD_REQUEST.value()) {
-				return "views/errors/400";
+				return "errors/400";
 			} else if(statusCode == HttpStatus.FORBIDDEN.value()) {
-				return "views/errors/403";
+				return "errors/403";
 			} else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				return "views/errors/500";
+				return "errors/500";
 			}
 		}
 
-		return "views/errors/unknown";
+		return "errors/unknown";
 	}
 	
 }
